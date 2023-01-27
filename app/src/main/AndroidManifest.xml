@@ -12,6 +12,15 @@
         android:theme="@style/Theme.Dice"
         tools:targetApi="31">
         <activity
+            android:name=".SubActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".SubActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".SubActivity1"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
