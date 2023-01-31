@@ -56,5 +56,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.21"
 
+    implementation "com.naver.maps:map-sdk:3.16.1"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 
 }

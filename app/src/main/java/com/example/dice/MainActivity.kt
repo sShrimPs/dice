@@ -1,6 +1,7 @@
 package com.example.dice
 
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 class MainActivity : AppCompatActivity() {
 
     val TAG = "TAG_MainActivity"
@@ -32,7 +34,13 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.VISIBLE
             callTodoList()
         }
+        sbtn_1.setOnClickListener {
+            val intent = Intent(this, SubActivity1::class.java)
+            startActivity(intent)
+        }
+
     }
+
 
 
     // 리스트를 불러온다.

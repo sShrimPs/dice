@@ -14,7 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dice"
         tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:appComponentFactory="whateverString"
+
+        tools:replace="android:appComponentFactory">
+        <activity
+            android:name=".SubActivity1"
+            android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -24,7 +31,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="3efr3hkcm9"/>
