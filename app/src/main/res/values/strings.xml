@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">dice</string>
+    <string name="baseUrl">http://192.168.1.176:24/</string>
 </resources>
