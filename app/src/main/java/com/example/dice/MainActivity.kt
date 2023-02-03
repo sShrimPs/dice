@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,15 +33,14 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.VISIBLE
             callTodoList()
         }
+
         sbtn_1.setOnClickListener {
             val intent = Intent(this, SubActivity1::class.java)
             startActivity(intent)
         }
 
+
     }
-
-
-
     // 리스트를 불러온다.
     private fun callTodoList() {
         mCallTodoList = mRetrofitAPI.getTodoList()
