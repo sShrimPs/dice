@@ -7,22 +7,42 @@ import androidx.annotation.NonNull
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import android.content.ClipboardManager
+import android.view.View
 import kotlinx.android.synthetic.main.activity_sub1.*
 class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private val LOCATION_PERMISSTION_REQUEST_CODE: Int = 1000
     private lateinit var locationSource: FusedLocationSource // 위치를 반환하는 구현체
     private lateinit var naverMap: NaverMap
-    private val marker = Marker()
     private val marker1 = Marker()
+    private val marker2 = Marker()
+    private val marker3 = Marker()
+    private val infoWindow1 = InfoWindow()
+    private val infoWindow2 = InfoWindow()
+    private val infoWindow3 = InfoWindow()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub1)
 
         lbtn_1.setOnClickListener {
             finish()
+        }
+
+        addbtn_1.setOnClickListener{
+            finish()
+
+        }
+        addbtn_2.setOnClickListener{
+            finish()
+        }
+        addbtn_3.setOnClickListener{
+            finish()
+
         }
 
         mapView = findViewById(R.id.map)
@@ -32,14 +52,128 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSTION_REQUEST_CODE)
     }
     override fun onMapReady(@NonNull naverMap: NaverMap) {
+        val uiSettings = naverMap.uiSettings
+
+        uiSettings.isCompassEnabled = true
+        uiSettings.isScaleBarEnabled = true
+        uiSettings.isLocationButtonEnabled = true
         this.naverMap = naverMap
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
         // 장소 마커
-        marker1.position = LatLng(35.544130200005, 129.255587220)
+        marker1.position = LatLng(35.543937, 129.254998)
         marker1.map = naverMap
-        marker1.captionText = "울산대학교 7호관"
+        marker1.captionTextSize = 16f
+        marker1.captionText = "Dice Park 1호점"
+        marker1.subCaptionText = "\n(주소를 볼려면 마커를 눌러주세요)"
+        marker1.subCaptionColor = Color.BLUE
+        marker1.subCaptionHaloColor = Color.rgb(200, 255, 200)
+        marker1.subCaptionTextSize = 10f
+
+        marker2.position = LatLng(35.545000, 129.2582)
+        marker2.map = naverMap
+        marker2.captionTextSize = 16f
+        marker2.captionText = "Dice Park 2호점"
+        marker2.subCaptionText = "\n(주소를 볼려면 마커를 눌러주세요)"
+        marker2.subCaptionColor = Color.BLUE
+        marker2.subCaptionHaloColor = Color.rgb(200, 255, 200)
+        marker2.subCaptionTextSize = 10f
+
+        marker3.position = LatLng(35.546, 129.2575)
+        marker3.map = naverMap
+        marker3.captionTextSize = 16f
+        marker3.captionText = "Dice Park 3호점"
+        marker3.subCaptionText = "\n(주소를 볼려면 마커를 눌러주세요)"
+        marker3.subCaptionColor = Color.BLUE
+        marker3.subCaptionHaloColor = Color.rgb(200, 255, 200)
+        marker3.subCaptionTextSize = 10f
+        addbtn_1.visibility = View.INVISIBLE
+        addbtn_2.visibility = View.INVISIBLE
+        addbtn_3.visibility = View.INVISIBLE
+
+        infoWindow1.adapter = object : InfoWindow.DefaultTextAdapter(application) {
+            override fun getText(infoWindow: InfoWindow): CharSequence {
+                return "울산광역시 남구 대학로93 7호관 전기컴퓨터 공학관"  // 정보창 내용 넣기
+            }
+        }
+        infoWindow2.adapter = object : InfoWindow.DefaultTextAdapter(application) {
+            override fun getText(infoWindow: InfoWindow): CharSequence {
+                return "울산광역시 남구 대학로93 울산대학교 체육관"  // 정보창 내용 넣기
+            }
+        }
+        infoWindow3.adapter = object : InfoWindow.DefaultTextAdapter(application) {
+            override fun getText(infoWindow: InfoWindow): CharSequence {
+                return "울산광역시 남구 대학로93 KCC 생활관"  // 정보창 내용 넣기
+            }
+        }
+
+        val listener1 = Overlay.OnClickListener { overlay ->
+            val markerA = overlay as Marker
+
+            if (markerA.infoWindow == null) {
+                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+
+                infoWindow1.open(marker1)
+                addbtn_1.visibility = View.VISIBLE
+
+
+            } else {
+                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                infoWindow1.close()
+                addbtn_1.visibility = View.INVISIBLE
+
+            }
+
+            true
+        }
+        val listener2 = Overlay.OnClickListener { overlay ->
+            val markerA = overlay as Marker
+
+            if (markerA.infoWindow == null) {
+                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+
+                infoWindow2.open(marker2)
+                addbtn_2.visibility = View.VISIBLE
+
+
+            } else {
+                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                infoWindow2.close()
+                addbtn_2.visibility = View.INVISIBLE
+
+
+            }
+
+            true
+        }
+
+        val listener3 = Overlay.OnClickListener { overlay ->
+            val markerA = overlay as Marker
+
+            if (markerA.infoWindow == null) {
+                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+
+                infoWindow3.open(marker3)
+                addbtn_3.visibility = View.VISIBLE
+
+
+            } else {
+                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                infoWindow3.close()
+                addbtn_3.visibility = View.INVISIBLE
+
+            }
+
+            true
+        }
+
+
+        marker1.onClickListener = listener1
+        marker2.onClickListener = listener2
+        marker3.onClickListener = listener3
+
+// 정보창 열기
     }
     override fun onStart() {
         super.onStart()
