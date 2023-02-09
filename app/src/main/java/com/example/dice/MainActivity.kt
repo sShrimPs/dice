@@ -1,11 +1,12 @@
 package com.example.dice
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -64,12 +65,22 @@ class MainActivity : AppCompatActivity() {
 
 
             var mGson = Gson()
-            val dataParsed1 = mGson.fromJson(result, DataModel.TodoInfo1::class.java)
-            val dataParsed2 = mGson.fromJson(result, DataModel.TodoInfo2::class.java)
-            val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
+            val dataParsed1 = mGson.fromJson(result, DataModel::class.java)
+            //val dataParsed2 = mGson.fromJson(result, DataModel.TodoInfo2::class.java)
+            //val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
+            var test = dataParsed1.Sonic
 
-            textView.text = "주차장 자리 현황\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
+            test = test.replace("(","")
+            test = test.replace(")","")
+            test = test.replace(",","")
+            test = test.replace("'","")
+            test = test.replace("\\","")
+            test = test.replace("r","")
+            test = test.replace("n","")
+            Log.d(TAG, "상태는 => $test")
 
+            //textView.text = "주차장 자리 현황\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
+            textView.text = "Dice 주차장 주차 현황\n" + test + "/6"
             progressBar.visibility = View.GONE
             button1.visibility = View.VISIBLE
         }
@@ -77,10 +88,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRetrofit(){
         //레트로핏으로 가져올 url설정하고 세팅
-        mRetrofit = Retrofit
-            .Builder()
+        var gson = GsonBuilder().setLenient().create()
+        mRetrofit = Retrofit.Builder()
             .baseUrl(getString(R.string.baseUrl))
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         //인터페이스로 만든 레트로핏 api요청 받는 것 변수로 등록

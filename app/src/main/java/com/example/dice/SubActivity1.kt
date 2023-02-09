@@ -13,6 +13,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import android.content.ClipboardManager
 import android.view.View
+import android.content.ClipData
 import kotlinx.android.synthetic.main.activity_sub1.*
 class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
@@ -25,23 +26,32 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
     private val infoWindow1 = InfoWindow()
     private val infoWindow2 = InfoWindow()
     private val infoWindow3 = InfoWindow()
+    private val addressmark1 = "울산광역시 남구 대학로93 전기컴퓨터공학관"
+    private val addressmark2 = "울산광역시 남구 대학로93 울산대학교 체육관"
+    private val addressmark3 = "울산광역시 남구 대학로93 KCC생활관"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub1)
+        val clipboard=getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+
 
         lbtn_1.setOnClickListener {
             finish()
         }
 
         addbtn_1.setOnClickListener{
-            finish()
+            val clip: ClipData = ClipData.newPlainText("simple text", addressmark1)
+            clipboard.setPrimaryClip(clip)
 
         }
         addbtn_2.setOnClickListener{
-            finish()
+            val clip: ClipData = ClipData.newPlainText("simple text", addressmark2)
+            clipboard.setPrimaryClip(clip)
         }
         addbtn_3.setOnClickListener{
-            finish()
+            val clip: ClipData = ClipData.newPlainText("simple text",  addressmark3)
+            clipboard.setPrimaryClip(clip)
 
         }
 
@@ -94,17 +104,17 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
 
         infoWindow1.adapter = object : InfoWindow.DefaultTextAdapter(application) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
-                return "울산광역시 남구 대학로93 7호관 전기컴퓨터 공학관"  // 정보창 내용 넣기
+                return addressmark1  // 정보창 내용 넣기
             }
         }
         infoWindow2.adapter = object : InfoWindow.DefaultTextAdapter(application) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
-                return "울산광역시 남구 대학로93 울산대학교 체육관"  // 정보창 내용 넣기
+                return addressmark2  // 정보창 내용 넣기
             }
         }
         infoWindow3.adapter = object : InfoWindow.DefaultTextAdapter(application) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
-                return "울산광역시 남구 대학로93 KCC 생활관"  // 정보창 내용 넣기
+                return addressmark3  // 정보창 내용 넣기
             }
         }
 
@@ -115,7 +125,11 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
 
                 infoWindow1.open(marker1)
+                infoWindow2.close()
+                infoWindow3.close()
                 addbtn_1.visibility = View.VISIBLE
+                addbtn_2.visibility = View.INVISIBLE
+                addbtn_3.visibility = View.INVISIBLE
 
 
             } else {
@@ -134,7 +148,11 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
 
                 infoWindow2.open(marker2)
+                infoWindow1.close()
+                infoWindow3.close()
                 addbtn_2.visibility = View.VISIBLE
+                addbtn_1.visibility = View.INVISIBLE
+                addbtn_3.visibility = View.INVISIBLE
 
 
             } else {
@@ -155,7 +173,11 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
 
                 infoWindow3.open(marker3)
+                infoWindow1.close()
+                infoWindow2.close()
                 addbtn_3.visibility = View.VISIBLE
+                addbtn_1.visibility = View.INVISIBLE
+                addbtn_2.visibility = View.INVISIBLE
 
 
             } else {
