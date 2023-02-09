@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setRetrofit()
 
-        //버튼 클릭하면 가져오기
+
         button1.setOnClickListener {
             button1.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
@@ -42,18 +42,19 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    // 리스트를 불러온다.
+
     private fun callTodoList() {
         mCallTodoList = mRetrofitAPI.getTodoList()
-        mCallTodoList.enqueue(mRetrofitCallback)//응답을 큐 대기열에 넣는다.
+        mCallTodoList.enqueue(mRetrofitCallback)
     }
 
-    //http요청을 보냈고 이건 응답을 받을 콜벡메서드
+
     private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+
             t.printStackTrace()
-            Log.d(TAG, "에러입니다. => ${t.message.toString()}")
-            textView.text = "에러\n" + t.message.toString()
+            Log.d(TAG, "에러코드. => ${t.message.toString()}")
+            textView.text = "에러\n" + "다시 한번 새로고침을 해주세요"
 
             progressBar.visibility = View.GONE
             button1.visibility = View.VISIBLE
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
-            Log.d(TAG, "상태는 => $result")
+            Log.d(TAG, "수신왼료 $result")
 
 
             var mGson = Gson()
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             test = test.replace("\\","")
             test = test.replace("r","")
             test = test.replace("n","")
-            Log.d(TAG, "상태는 => $test")
+            Log.d(TAG, "변환 데이터 $test")
 
             //textView.text = "주차장 자리 현황\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
             textView.text = "Dice 주차장 주차 현황\n" + test + "/6"
@@ -87,14 +88,11 @@ class MainActivity : AppCompatActivity() {
     })
 
     private fun setRetrofit(){
-        //레트로핏으로 가져올 url설정하고 세팅
         var gson = GsonBuilder().setLenient().create()
         mRetrofit = Retrofit.Builder()
             .baseUrl(getString(R.string.baseUrl))
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-
-        //인터페이스로 만든 레트로핏 api요청 받는 것 변수로 등록
         mRetrofitAPI = mRetrofit.create(RetrofitAPI::class.java)
     }
 

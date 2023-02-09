@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_sub1.*
 class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private val LOCATION_PERMISSTION_REQUEST_CODE: Int = 1000
-    private lateinit var locationSource: FusedLocationSource // 위치를 반환하는 구현체
+    private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
     private val marker1 = Marker()
     private val marker2 = Marker()
@@ -62,8 +62,8 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSTION_REQUEST_CODE)
     }
     override fun onMapReady(@NonNull naverMap: NaverMap) {
-        val uiSettings = naverMap.uiSettings
 
+        val uiSettings = naverMap.uiSettings
         uiSettings.isCompassEnabled = true
         uiSettings.isScaleBarEnabled = true
         uiSettings.isLocationButtonEnabled = true
