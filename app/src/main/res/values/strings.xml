@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">dice</string>
+    <string name="baseUrl">http://192.168.1.13:24</string>
+    <string name="naver_client_id">XwW2At9Jyi8NvNSnrfox</string>
+    <string name="naver_client_secret">XM_GTYpbN_</string>
+</resources>
