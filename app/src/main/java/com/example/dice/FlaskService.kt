@@ -8,7 +8,6 @@ import retrofit2.http.POST
 
 
 interface FlaskService {
-    @POST("/member")
-    @GET("/member")
+    @POST("/signup")
     fun sendData(@Body data: JsonObject): Call<JsonObject>
 }

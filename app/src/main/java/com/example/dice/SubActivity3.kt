@@ -26,10 +26,11 @@ class SubActivity3 : AppCompatActivity() {
     val TAG: String = "SubActivity3"
 
     lateinit var mRetrofit :Retrofit
-    lateinit var mRetrofitAPI: loginService
+    lateinit var mRetrofitAPI: memberid
     lateinit var mCallTodoList : retrofit2.Call<JsonObject>
-    lateinit var loginst: String
-    lateinit var memNum: String
+    var result: String = ""
+    var loginst: String = ""
+    var memNum: String = ""
 
 
     companion object {
@@ -56,17 +57,12 @@ class SubActivity3 : AppCompatActivity() {
             }
             Log.d(TAG, "로그인 전송중 $jsonObject")
             sendDataToServer(jsonObject)
+            Log.d(TAG, "senddata 전송완료")
             login_process()
-            callTodoList()
-
-
-            // 쉐어드로부터 저장된 id, pw 가져오기
-            //val sharedPreference = getSharedPreferences("file name", Context.MODE_PRIVATE)
-            //val savedId = sharedPreference.getString("id", "")
-            //val savedPw = sharedPreference.getString("pw", "")
+            Log.d(TAG, "loginprocess")
 
             // 유저가 입력한 id, pw값과 쉐어드로 불러온 id, pw값 비교
-            if(loginst.equals("ok")){
+            if(memNum.equals("1")){
                 // 로그인 성공 다이얼로그 보여주기
                 dialog("로그인 성공 회원정보 $memNum")
                 val intent = Intent(this, MainActivity::class.java)
@@ -75,7 +71,7 @@ class SubActivity3 : AppCompatActivity() {
 
             else{
                 // 로그인 실패 다이얼로그 보여주기
-                dialog("")
+                dialog("fail")
             }
         }
 
@@ -121,18 +117,38 @@ class SubActivity3 : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        val apiService = retrofit.create(FlaskService::class.java)
+        val apiService = retrofit.create(loginService::class.java)
 
-        val call = apiService.sendData(jsonObject)
+        val call = apiService.login(jsonObject)
         Log.d(TAG, "전송중")
 
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     Log.d("Response 완료", response.body().toString())
+                    val results = response.body()
+                    Log.d(TAG, "전송과정중 response $results")
+
+                    var mGson = Gson()
+                    val receive_pass = mGson.fromJson(results, Loginserver::class.java)
+                    val receive_mem = mGson.fromJson(results, NumInfo::class.java)
+
+                    loginst = receive_pass.id
+                    memNum = receive_mem.check
+                    Log.d(TAG, "변환 $loginst , $memNum ")
+
 
                 } else {
                     Log.d("Response 완료", response.errorBody().toString())
+                    val results = response.body()
+                    Log.d(TAG, "전송과정중error response $results")
+                    var mGson = Gson()
+                    val receive_pass = mGson.fromJson(results, Loginserver::class.java)
+                    val receive_mem = mGson.fromJson(results, NumInfo::class.java)
+
+                    loginst = receive_pass.id
+                    memNum = receive_mem.check
+                    Log.d(TAG, "변환 $loginst , $memNum ")
 
                 }
             }
@@ -140,14 +156,18 @@ class SubActivity3 : AppCompatActivity() {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Log.d("실패", t.message.toString())
             }
+
         }
         )
         Log.d(TAG, "전송완료")
+
+
+
     }
-    private fun callTodoList() {
-        mCallTodoList = mRetrofitAPI.login()
+    /*private fun callTodoList() {
+        mCallTodoList = mRetrofitAPI.memid()
         mCallTodoList.enqueue(mRetrofitCallback)
-    }
+    }*/
 
     private fun login_process(){
         var gson = GsonBuilder().setLenient().create()
@@ -155,23 +175,19 @@ class SubActivity3 : AppCompatActivity() {
             .baseUrl(getString(R.string.baseUrl))
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-        mRetrofitAPI = mRetrofit.create(loginService::class.java)
+        mRetrofitAPI = mRetrofit.create(memberid::class.java)
     }
-    private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
+   /* private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
 
             t.printStackTrace()
             Log.d(TAG, "에러코드. => ${t.message.toString()}")
-            textView.text = "에러\n" + "다시 한번 새로고침을 해주세요"
 
-            progressBar.visibility = View.GONE
-            button1.visibility = View.VISIBLE
         }
 
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
-            Log.d(TAG, "수신왼료 $result")
-
+            Log.d(TAG, "로그인 정보 수신 완료 $result")
 
             var mGson = Gson()
             val receive_pass = mGson.fromJson(result, Loginserver::class.java)
@@ -179,6 +195,7 @@ class SubActivity3 : AppCompatActivity() {
             //val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
             loginst = receive_pass.Login_chk
             memNum = receive_mem.memID
+
             //var sever_pw = receive_pw.Log_pw
 
 
@@ -200,7 +217,7 @@ class SubActivity3 : AppCompatActivity() {
             Log.d(TAG, "회원정보 일치 정보 $loginst 회원번호 $memNum")
 
         }
-    })
+    })*/
 
 
 }
