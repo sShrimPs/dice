@@ -57,9 +57,8 @@ class SubActivity3 : AppCompatActivity() {
             }
             Log.d(TAG, "로그인 전송중 $jsonObject")
             sendDataToServer(jsonObject)
-            Log.d(TAG, "senddata 전송완료")
+            Log.d(TAG, "login process 진행중")
             login_process()
-            Log.d(TAG, "loginprocess")
 
             // 유저가 입력한 id, pw값과 쉐어드로 불러온 id, pw값 비교
             if(memNum.equals("1")){
@@ -82,7 +81,6 @@ class SubActivity3 : AppCompatActivity() {
         }
 
     }
-
     // 로그인 성공/실패 시 다이얼로그를 띄워주는 메소드
     fun dialog(type: String){
         var dialog = AlertDialog.Builder(this)
@@ -127,7 +125,7 @@ class SubActivity3 : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Log.d("Response 완료", response.body().toString())
                     val results = response.body()
-                    Log.d(TAG, "전송과정중 response $results")
+                    Log.d(TAG, "전송 과정 중 response $results")
 
                     var mGson = Gson()
                     val receive_pass = mGson.fromJson(results, Loginserver::class.java)
@@ -135,40 +133,32 @@ class SubActivity3 : AppCompatActivity() {
 
                     loginst = receive_pass.id
                     memNum = receive_mem.check
-                    Log.d(TAG, "변환 $loginst , $memNum ")
+                    Log.d(TAG, "변환 결과 $loginst , $memNum ")
 
 
                 } else {
                     Log.d("Response 완료", response.errorBody().toString())
                     val results = response.body()
-                    Log.d(TAG, "전송과정중error response $results")
+                    Log.d(TAG, "전송 error response $results")
                     var mGson = Gson()
                     val receive_pass = mGson.fromJson(results, Loginserver::class.java)
                     val receive_mem = mGson.fromJson(results, NumInfo::class.java)
 
                     loginst = receive_pass.id
                     memNum = receive_mem.check
-                    Log.d(TAG, "변환 $loginst , $memNum ")
+                    Log.d(TAG, "변환 결과 $loginst , $memNum ")
 
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Log.d("실패", t.message.toString())
+                Log.d("전송 실패", t.message.toString())
             }
 
         }
         )
         Log.d(TAG, "전송완료")
-
-
-
     }
-    /*private fun callTodoList() {
-        mCallTodoList = mRetrofitAPI.memid()
-        mCallTodoList.enqueue(mRetrofitCallback)
-    }*/
-
     private fun login_process(){
         var gson = GsonBuilder().setLenient().create()
         mRetrofit = Retrofit.Builder()
@@ -177,47 +167,5 @@ class SubActivity3 : AppCompatActivity() {
             .build()
         mRetrofitAPI = mRetrofit.create(memberid::class.java)
     }
-   /* private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
-        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-
-            t.printStackTrace()
-            Log.d(TAG, "에러코드. => ${t.message.toString()}")
-
-        }
-
-        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-            val result = response.body()
-            Log.d(TAG, "로그인 정보 수신 완료 $result")
-
-            var mGson = Gson()
-            val receive_pass = mGson.fromJson(result, Loginserver::class.java)
-            val receive_mem = mGson.fromJson(result, NumInfo::class.java)
-            //val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
-            loginst = receive_pass.Login_chk
-            memNum = receive_mem.memID
-
-            //var sever_pw = receive_pw.Log_pw
-
-
-            loginst = loginst.replace("(","")
-            loginst = loginst.replace(")","")
-            loginst = loginst.replace(",","")
-            loginst = loginst.replace("'","")
-            loginst = loginst.replace("\\","")
-            loginst = loginst.replace("r","")
-            loginst = loginst.replace("n","")
-
-            memNum = memNum.replace("(","")
-            memNum = memNum.replace(")","")
-            memNum = memNum.replace(",","")
-            memNum = memNum.replace("'","")
-            memNum = memNum.replace("\\","")
-            memNum = memNum.replace("r","")
-            memNum = memNum.replace("n","")
-            Log.d(TAG, "회원정보 일치 정보 $loginst 회원번호 $memNum")
-
-        }
-    })*/
-
 
 }

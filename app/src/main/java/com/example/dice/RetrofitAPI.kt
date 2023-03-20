@@ -1,10 +1,9 @@
 package com.example.dice
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Query
+
 
 interface RetrofitAPI {
     @GET("/sonic")//서버에 GET 요청을 할 주소를 입력
