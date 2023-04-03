@@ -2,6 +2,7 @@ package com.example.dice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.dice.R
 import kotlinx.android.synthetic.main.activity_parkinfo.*
 
 class ParkinfoActivity : AppCompatActivity() {

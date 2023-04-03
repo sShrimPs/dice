@@ -6,14 +6,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
-import kotlinx.android.synthetic.main.activity_sub1.*
 import kotlinx.android.synthetic.main.activity_sub5.*
-import kotlinx.android.synthetic.main.activity_sub3.*
-import kotlinx.android.synthetic.main.activity_pointcharge.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject

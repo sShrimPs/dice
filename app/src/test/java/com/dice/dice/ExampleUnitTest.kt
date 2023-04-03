@@ -1,4 +1,4 @@
-package com.example.dice
+package com.dice.dice
 
 import org.junit.Test
 

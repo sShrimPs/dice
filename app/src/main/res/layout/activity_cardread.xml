@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".cardread">
 
+
+    <TextView
+        android:id="@+id/taguidTextView"
+        android:layout_width="363dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="500dp"
+        app:layout_constraintBottom_toTopOf="@+id/returnbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
     <Button
         android:id="@+id/returnbtn"
         android:layout_width="wrap_content"
@@ -18,17 +30,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/nfcread"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="NFC 읽기"
-        app:layout_constraintBottom_toTopOf="@+id/returnbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

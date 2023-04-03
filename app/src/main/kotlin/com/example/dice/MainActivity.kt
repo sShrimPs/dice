@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import com.navercorp.nid.NaverIdLoginSDK
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_sub5.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
