@@ -1,8 +1,8 @@
 package com.example.dice
 
-import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.TagLostException
@@ -13,16 +13,30 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_cardread.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
-
+    lateinit var pref: SharedPreferences
+    lateinit var preid: SharedPreferences.Editor
+    var ids = intent?.getStringExtra("ids") ?: ""
     private var nfcAdapter: NfcAdapter? = null
     var uid:String = ""
+    var uidDecimal:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cardread)
+        pref = getSharedPreferences("id", Context.MODE_PRIVATE)
+        preid = pref.edit()
+        var saveid = pref.getString("InputData","")
+        ids = saveid.toString()
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this) ?: run {
             Toast.makeText(this, "이 장치는 nfc를 지원하지 않습니다.", Toast.LENGTH_LONG).show()
@@ -40,6 +54,7 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
         returnbtn.setOnClickListener {
             val intents = Intent(this, SubActivity5::class.java)
             intent.apply {
+                this.putExtra("id", ids)
                 this.putExtra("uid", uid)
             }
             startActivity(intents)
@@ -67,6 +82,7 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
         super.onPause()
         nfcAdapter?.disableReaderMode(this)
     }
+
     override fun onTagDiscovered(tag: Tag?) {
         try {
             val mifareClassic = MifareClassic.get(tag)
@@ -87,7 +103,16 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
                     }
                 }
                 uid = bytesToHexString(it.tag.id)
+                var uiddem = java.lang.Long.parseLong(uid, 16)
+                uidDecimal = uiddem.toString()
                 it.close()
+                val jsonObject = JsonObject().apply {
+                    addProperty("id", ids)
+                    addProperty("uid", uidDecimal)
+                }
+                Log.d("Flask Sever", "카드정보 전송중 $jsonObject")
+                sendDataToServer(jsonObject)
+
                 runOnUiThread {
                     Toast.makeText(this, "UID: $uid", Toast.LENGTH_LONG).show()
                     taguidTextView.setText(uid)
@@ -117,4 +142,36 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
         }
         return builder.toString()
     }
+
+    private fun sendDataToServer(jsonObject: JsonObject) {
+
+        var gson = GsonBuilder().setLenient().create()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(getString(R.string.baseUrl))
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        val apiService = retrofit.create(cardService::class.java)
+
+        val call = apiService.cardSever(jsonObject)
+        Log.d("Retrofit sever", "전송중")
+
+        call.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    Log.d("Response 완료", response.body().toString())
+
+                } else {
+                    Log.d("Response 완료", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("전송 실패", t.message.toString())
+            }
+        }
+        )
+        Log.d("Retrofit sever", "전송완료")
+    }
+
 }

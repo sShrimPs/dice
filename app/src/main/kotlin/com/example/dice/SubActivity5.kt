@@ -84,8 +84,11 @@ class SubActivity5 : AppCompatActivity() {
 
         nfcbtn.setOnClickListener {
             val intent = Intent(this, cardread::class.java)
+            intent.apply {
+                this.putExtra("ids", ids)
+            }
             startActivity(intent)
-        } //메인메뉴로 이동
+        } //nfc메뉴로 이동
 
 
         parking_info.setOnClickListener {
@@ -109,6 +112,7 @@ class SubActivity5 : AppCompatActivity() {
         val call = apiService.miles(jsonObject)
         Log.d(TAG, "전송중")
 
+        Thread{
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
@@ -138,7 +142,12 @@ class SubActivity5 : AppCompatActivity() {
             }
 
         }
-        )
+        )}.start()
+    try {
+        Thread.sleep(40)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
         Log.d(TAG, "전송완료")
     }
 

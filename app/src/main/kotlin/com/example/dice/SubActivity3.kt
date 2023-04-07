@@ -28,7 +28,7 @@ class SubActivity3 : AppCompatActivity() {
     lateinit var pref: SharedPreferences
     lateinit var preid: SharedPreferences.Editor
     lateinit var mRetrofit :Retrofit
-    lateinit var mRetrofitAPI: memberid
+    lateinit var mRetrofitAPI: cardService
     lateinit var mCallTodoList : retrofit2.Call<JsonObject>
     var result: String = ""
     private var loginst: String = ""
@@ -36,13 +36,6 @@ class SubActivity3 : AppCompatActivity() {
     var ok:Int = 0
 
 
-
-    //companion object {
-       // private var instance: SubActivity3? = null
-       // fun getInstance(): SubActivity3? {
-       //     return instance
-     //   }
-   // }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub3)
@@ -50,16 +43,15 @@ class SubActivity3 : AppCompatActivity() {
         preid = pref.edit()
         // 로그인 버튼
         btn_login.setOnClickListener {
-            var autologin = pref.getString("success","")
+            var autologin = pref.getString("success", "")
             var ids = edit_id.text.toString()
-            preid.putString("InputData",ids)
+            preid.putString("InputData", ids)
             preid.apply()
-            var savebefore = pref.getString("InputData","")
+            var savebefore = pref.getString("InputData", "")
             var beforeid = savebefore.toString()
-            if(beforeid != ids){
+            if (beforeid != ids) {
                 preid.clear()
             }
-            var i = 0
             val jsonObject = JsonObject().apply {
                 addProperty("id", edit_id.text.toString())
                 addProperty("pw", edit_pw.text.toString())
@@ -70,29 +62,40 @@ class SubActivity3 : AppCompatActivity() {
             //login_process()
             // 유저가 입력한 id, pw값과 쉐어드로 불러온 id, pw값 비교
             Log.d(TAG, "Value : $ok")
-            if((ok == 1)||(autologin == "1")) {
-                    if((memNum == "1")||(autologin == "1")){
-                        // 로그인 성공 다이얼로그 보여주기
-                        autologin = "1"
-                        preid.putString("InputData",ids)
-                        preid.putString("success", autologin)
-                        preid.apply()
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.apply {
-                              this.putExtra("ids", ids)
-                        }
-                        startActivity(intent)
+            if ((memNum == "1") && (autologin == "1")) {
+                    // 로그인 성공 다이얼로그 보여주기
+                    autologin = "1"
+                    preid.putString("InputData", ids)
+                    preid.putString("success", autologin)
+                    preid.apply()
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.apply {
+                        this.putExtra("ids", ids)
                     }
-                    else{
-                        // 로그인 실패 다이얼로그 보여주기
-                        dialog("fail")
-                    }
+                    startActivity(intent)
+            }
+            else if ((memNum == "1") && (autologin == "0"))
+            {
+                // 로그인 성공 다이얼로그 보여주기
+                autologin = "1"
+                preid.putString("InputData", ids)
+                preid.putString("success", autologin)
+                preid.apply()
+                val intent = Intent(this, MainActivity::class.java)
+                intent.apply {
+                    this.putExtra("ids", ids)
                 }
-            else if(ok == 2){
-                    dialog("fail")
+                startActivity(intent)
+            }
+            else if ((memNum == "0") && (autologin == "1"))
+            {
+                dialog("fail")
+            }
+            else {
+                // 로그인 실패 다이얼로그 보여주기
+                dialog("fail")
             }
         }
-
         // 회원가입 버튼
         signup_btn.setOnClickListener {
             val intent = Intent(this, SubActivity4::class.java)
@@ -138,68 +141,56 @@ class SubActivity3 : AppCompatActivity() {
 
         val call = apiService.login(jsonObject)
         Log.d(TAG, "전송중")
+        Thread{
+            call.enqueue(object : Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
 
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                if (response.isSuccessful) {
+                        Log.d("Response 완료", response.body().toString())
+                        val results: JsonObject? = response.body()
+                        Log.d(TAG, "전송 과정 중 response $results")
 
-                    Log.d("Response 완료", response.body().toString())
-                    val results: JsonObject? = response.body()
-                    Log.d(TAG, "전송 과정 중 response $results")
-
-                    var mGson = Gson()
-                    val receive_pass = mGson.fromJson(results, Loginserver::class.java)
-                    val receive_mem = mGson.fromJson(results, NumInfo::class.java)
-
-                    loginst = receive_pass.id
-                    memNum = receive_mem.check
-                    Log.d(TAG, "변환 결과 $loginst , $memNum ")
-                    runBlocking {
-                        delay(500L)
-                    }
-                    ok = 1
-
-                } else {
-                    Log.d("Response 완료", response.errorBody().toString())
-                    val results: JsonObject? = response.body()
-                    Log.d(TAG, "전송 error response $results")
-                    if (results != null) {
-                        // Response 데이터가 null이 아닌 경우 처리하는 코드 작성
                         var mGson = Gson()
                         val receive_pass = mGson.fromJson(results, Loginserver::class.java)
                         val receive_mem = mGson.fromJson(results, NumInfo::class.java)
+
                         loginst = receive_pass.id
                         memNum = receive_mem.check
                         Log.d(TAG, "변환 결과 $loginst , $memNum ")
-                        runBlocking {
-                            delay(500L)
-                        }
-                        ok = 1
+
                     } else {
-                        // Response 데이터가 null인 경우 처리하는 코드 작성
-                        Log.d(TAG, "에러 발생 NULL ")
+                        Log.d("Response 완료", response.errorBody().toString())
+                        val results: JsonObject? = response.body()
+                        Log.d(TAG, "전송 error response $results")
+                        if (results != null) {
+                            // Response 데이터가 null이 아닌 경우 처리하는 코드 작성
+                            var mGson = Gson()
+                            val receive_pass = mGson.fromJson(results, Loginserver::class.java)
+                            val receive_mem = mGson.fromJson(results, NumInfo::class.java)
+                            loginst = receive_pass.id
+                            memNum = receive_mem.check
+                            Log.d(TAG, "변환 결과 $loginst , $memNum ")
+                        } else {
+                            // Response 데이터가 null인 경우 처리하는 코드 작성
+                            Log.d(TAG, "에러 발생 NULL ")
+                        }
                     }
                 }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+
+                    Log.d("전송 실패", t.message.toString())
+                }
+
             }
-
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-
-                Log.d("전송 실패", t.message.toString())
-                ok = 2
-            }
-
+        )}.start()
+        try {
+            Thread.sleep(50)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        )
-
         Log.d(TAG, "전송완료")
     }
-   // private fun login_process(){
-     //   var gson = GsonBuilder().setLenient().create()
-       // mRetrofit = Retrofit.Builder()
-         //   .baseUrl(getString(R.string.baseUrl))
-           // .addConverterFactory(GsonConverterFactory.create(gson))
-            //.build()
-        //mRetrofitAPI = mRetrofit.create(memberid::class.java)
-    //}
+
 
 }

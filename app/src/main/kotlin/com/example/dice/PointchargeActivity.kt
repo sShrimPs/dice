@@ -132,7 +132,7 @@ class PointchargeActivity : AppCompatActivity() {
 
         val call = apiService.miles(jsonObject)
         Log.d(TAG, "전송중")
-
+        Thread{
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
@@ -148,7 +148,13 @@ class PointchargeActivity : AppCompatActivity() {
                 Log.d("전송 실패", t.message.toString())
             }
         }
-        )
+        )}.start()
+        try {
+            Thread.sleep(40)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         Log.d(TAG, "전송완료")
     }
 }
