@@ -30,6 +30,8 @@ class PointchargeActivity : AppCompatActivity() {
     lateinit var preid: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        var fianlprice = 10000
         var price = intent?.getStringExtra("price") ?: ""
         var ids = intent?.getStringExtra("ids") ?: ""
         pref = getSharedPreferences("id", Context.MODE_PRIVATE)

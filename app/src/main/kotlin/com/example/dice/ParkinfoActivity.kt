@@ -1,5 +1,6 @@
 package com.example.dice
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.dice.R
@@ -18,6 +19,10 @@ class ParkinfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parkinfo)
 
+        back_btn.setOnClickListener {
+            val intent = Intent(this, SubActivity5::class.java)
+            startActivity(intent)
+        } //메인메뉴로 이동
         renewal_info.setOnClickListener {
 
         } //주차정보갱신 버튼

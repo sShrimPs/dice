@@ -185,7 +185,7 @@ class SubActivity3 : AppCompatActivity() {
             }
         )}.start()
         try {
-            Thread.sleep(50)
+            Thread.sleep(100)
         } catch (e: Exception) {
             e.printStackTrace()
         }
