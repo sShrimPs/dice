@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
     }
 
     private fun callTodoList() {
@@ -86,25 +85,29 @@ class MainActivity : AppCompatActivity() {
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
             Log.d(TAG, "수신왼료 $result")
+            if (result != null) {
+                // Response 데이터가 null이 아닌 경우 처리하는 코드 작성
 
+                var mGson = Gson()
+                val dataParsed1 = mGson.fromJson(result, DataModel::class.java)
+                test = dataParsed1.Sonic
 
-            var mGson = Gson()
-            val dataParsed1 = mGson.fromJson(result, DataModel::class.java)
-            //val dataParsed2 = mGson.fromJson(result, DataModel.TodoInfo2::class.java)
-            //val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
-            test = dataParsed1.Sonic
+                test = test.replace("(","")
+                test = test.replace(")","")
+                test = test.replace(",","")
+                test = test.replace("'","")
+                test = test.replace("\\","")
+                test = test.replace("r","")
+                test = test.replace("n","")
+                Log.d(TAG, "변환 데이터 $test")
 
-            test = test.replace("(","")
-            test = test.replace(")","")
-            test = test.replace(",","")
-            test = test.replace("'","")
-            test = test.replace("\\","")
-            test = test.replace("r","")
-            test = test.replace("n","")
-            Log.d(TAG, "변환 데이터 $test")
+                textView.text = "Dice 주차장 주차 현황\n" + test + "/6"
 
-            //textView.text = "주차장 자리 현황\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
-            textView.text = "Dice 주차장 주차 현황\n" + test + "/6"
+            } else {
+                // Response 데이터가 null인 경우 처리하는 코드 작성
+                Log.d(TAG, "에러 발생 NULL ")
+            }
+
             progressBar.visibility = View.GONE
             button1.visibility = View.VISIBLE
         }
