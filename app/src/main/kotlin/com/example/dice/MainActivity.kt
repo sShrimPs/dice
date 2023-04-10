@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dice.datamodel.DataModel
+import com.example.dice.retrofit.RetrofitAPI
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -43,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             button1.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
             callTodoList()
+        }
+
+        kakaoadd.setOnClickListener {
+            val intent = Intent(this, KakaoAddress::class.java)
+            startActivity(intent)
         }
 
         mapbtn_1.setOnClickListener {

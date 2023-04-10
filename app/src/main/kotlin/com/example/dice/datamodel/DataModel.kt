@@ -1,6 +1,7 @@
-package com.example.dice
+package com.example.dice.datamodel
 
 import com.google.gson.annotations.SerializedName
+
 
 data class DataModel (
         @SerializedName("sonic")
@@ -18,4 +19,9 @@ data class milesInfo ( //회원번호
     @SerializedName("mile")
     val mile : String
 )
+data class reservers ( //회원번호
+    @SerializedName("reserver")
+    val reserver : String
+)
+
 

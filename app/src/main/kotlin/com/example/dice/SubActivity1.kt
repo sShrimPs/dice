@@ -1,8 +1,11 @@
 package com.example.dice
 
+import com.example.dice.datamodel.DataModel
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.annotation.NonNull
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -11,18 +14,38 @@ import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
-import android.content.ClipboardManager
 import android.view.View
-import android.content.ClipData
-import android.content.Intent
-import android.content.SharedPreferences
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import com.example.dice.datamodel.reservers
+import com.example.dice.retrofit.reserverService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_sub1.*
+import kotlinx.android.synthetic.main.popup_layout.*
+import org.w3c.dom.Text
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var popupView: View
+    lateinit var mRetrofit :Retrofit
+    lateinit var mRetrofitAPI: reserverService
+    lateinit var mCallTodoList : retrofit2.Call<JsonObject>
     private lateinit var mapView: MapView
     private val LOCATION_PERMISSTION_REQUEST_CODE: Int = 1000
     private lateinit var locationSource: FusedLocationSource
@@ -44,18 +67,12 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
     var isExistBlank = false
     var money: String = ""
 
-    private val A1 = 1
-    private val A2 = 0
-    private val A3 = 1
-    private val A4 = 1
-    private val A5 = 1
-    private val A6 = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setRetrofit()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub1)
         val clipboard=getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-
 
 
         mainbtn_1.setOnClickListener {
@@ -74,176 +91,11 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
             val clip: ClipData = ClipData.newPlainText("simple text",  addressmark3)
             clipboard.setPrimaryClip(clip)
         }
-        //아래 A1~A6는 주차구역의 버튼 확성 비활성화 및 가배정 기능
-        if (A1 == 1) {
-            A1spot.isEnabled = true
-            A1spot.setBackgroundResource(R.drawable.green_circle_button)
-            A1spot.setOnClickListener{
-//가배정 버튼 -> A1버튼 터치 -> 가배정 하시겠습니까??? - 만약 30분내 입차하지 않을시 위약금 10000원이 청구됩니다.
-                //경고문 필요 1. 반드시 30분 내에 주차장에 도착해주세요. 2. 입차확인은 번호판을 통해 자동으로 확인됩니다.
-                //
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A1 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A1 == 0) {
-            A1spot.isEnabled = false
-            A1spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
-        }
-        if (A2 == 1) {
-            A2spot.isEnabled = true
-            A2spot.setBackgroundResource(R.drawable.green_circle_button)
-            A2spot.setOnClickListener{
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A2 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A2 == 0) {
-            A2spot.isEnabled = false
-            A2spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
-        }
-        if (A3 == 1) {
-            A3spot.isEnabled = true
-            A3spot.setBackgroundResource(R.drawable.green_circle_button)
-            A3spot.setOnClickListener{
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A3 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A3 == 0) {
-            A3spot.isEnabled = false
-            A3spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
-        }
-        if (A4 == 1) {
-            A4spot.isEnabled = true
-            A4spot.setBackgroundResource(R.drawable.green_circle_button)
-            A4spot.setOnClickListener{
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A4 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A4 == 0) {
-            A4spot.isEnabled = false
-            A4spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
-        }
-        if (A5 == 1) {
-            A5spot.isEnabled = true
-            A5spot.setBackgroundResource(R.drawable.green_circle_button)
-            A5spot.setOnClickListener{
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A5 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A5 == 0) {
-            A5spot.isEnabled = false
-            A5spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
-        }
-        if (A6 == 1) {
-            A6spot.isEnabled = true
-            A6spot.setBackgroundResource(R.drawable.green_circle_button)
-            A6spot.setOnClickListener{
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("주의사항")
-                builder.setMessage("A6 가배정 하시겠습니까?\n1. 반드시 30분 이내에 입차해주세요\n시간내 미입차시 위약금 10000원이 청구됩니다.\n2. 입차확인은 번호판을 통해 자동으로 확인됩니다.\n3. 이재호 개병신")
-                builder.setPositiveButton("네") { dialog, which ->
-                    // 여기에 기능 추가 필요 - 가배정 이후 동작
-                    Toast.makeText(this, "가배정 되었습니다!", Toast.LENGTH_SHORT).show()
-                }
-                builder.setNegativeButton("아니요") { dialog, which ->
-                    Toast.makeText(this, "취소하였습니다..", Toast.LENGTH_SHORT).show()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        } else if (A6 == 0) {
-            A6spot.isEnabled = false
-            A6spot.setBackgroundResource(R.drawable.red_circle_button)
-        }
-        else{
-            print("error!!")
+        reserve_1.setOnClickListener {
+            showFullScreenPopupDialog()
         }
 
-//아래 parkspot은 주차장 클릭후 가배정 버튼을 의미
-        parkspot1.setOnClickListener {
-            parkspotclose.visibility = View.VISIBLE
-            park_image.visibility=View.VISIBLE
-            A1spot.visibility=View.VISIBLE
-            A2spot.visibility=View.VISIBLE
-            A3spot.visibility=View.VISIBLE
-            A4spot.visibility=View.VISIBLE
-            A5spot.visibility=View.VISIBLE
-            A6spot.visibility=View.VISIBLE
-        }
-        parkspotclose.setOnClickListener {
-            park_image.visibility=View.GONE
-            parkspotclose.visibility = View.GONE
-            A1spot.visibility=View.GONE
-            A2spot.visibility=View.GONE
-            A3spot.visibility=View.GONE
-            A4spot.visibility=View.GONE
-            A5spot.visibility=View.GONE
-            A6spot.visibility=View.GONE
-        }
+
 
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
@@ -258,15 +110,82 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun cancelMarkerByLongitude(longitude: Double) {
-        // Find the marker with the given longitude from the markers list
-        val markerToRemove = markers.find { it.position.longitude == longitude }
-        // If a marker with the given longitude exists, remove it from the map and the markers list
-        markerToRemove?.apply {
-            map = null
-            markers.remove(this)
-        }
+    private fun callTodoList() {
+        mCallTodoList = mRetrofitAPI.getReservers()
+        mCallTodoList.enqueue(mRetrofitCallback)
     }
+    private fun showFullScreenPopupDialog() {
+        // Get the display metrics of the device
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        // Create the PopupWindow object
+        val popupWindow = PopupWindow(this)
+
+        // Set the width and height of the PopupWindow object to match the device's screen size
+        popupWindow.width = displayMetrics.widthPixels
+        popupWindow.height = displayMetrics.heightPixels
+        popupWindow.isFocusable = true
+
+        // Set the background color of the PopupWindow to an opaque color
+        popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.popup_background_color)))
+
+        // Set the popup layout as the content view of the PopupWindow
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        popupView = inflater.inflate(R.layout.popup_layout, null)
+        popupWindow.contentView = popupView
+        val returnButton = popupView.findViewById<Button>(R.id.returnbtn1)
+
+        returnButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
+        val returntxt: TextView = popupView.findViewById(R.id.returnRe)
+        returntxt.text = "Error\n" + "Please refresh again"
+
+        // Show the PopupWindow as a full-screen dialog
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+
+        callTodoList()
+        val reser = popupView.findViewById<Button>(R.id.refresh1)
+        reser.setOnClickListener {
+            callTodoList()
+        }
+
+
+    }
+
+    private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
+        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+            t.printStackTrace()
+            Log.d(TAG, "에러코드. => ${t.message.toString()}")
+            val returntxt = popupView.findViewById<TextView>(R.id.returnRe)
+            returntxt.text = "에러\n" + "다시 한번 새로고침을 해주세요"
+
+        }
+
+        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+            val result = response.body()
+            Log.d(TAG, "수신왼료 $result")
+            if (result != null) {
+                // Response 데이터가 null이 아닌 경우 처리하는 코드 작성
+
+                var mGson = Gson()
+                val dataParsed1 = mGson.fromJson(result, DataModel::class.java)
+                val dataParsed2 = mGson.fromJson(result, reservers::class.java)
+                val test = dataParsed1.Sonic
+                val test1 = dataParsed2.reserver
+                val returntxt = popupView.findViewById<TextView>(R.id.returnRe)
+                returntxt.text = "Dice 주차장 주차 현황\n" + test + "/6\n" + "예약현황\n" + test1
+
+            } else {
+                // Response 데이터가 null인 경우 처리하는 코드 작성
+                Log.d(TAG, "에러 발생 ")
+            }
+
+
+        }
+    })
+
 
     override fun onMapReady(@NonNull naverMap: NaverMap) {
 
@@ -339,22 +258,18 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow1.open(marker1)
                 infoWindow2.close()
                 infoWindow3.close()
+                reserve_1.visibility = View.VISIBLE
                 addbtn_1.visibility = View.VISIBLE
-                parkspot1.visibility = View.VISIBLE
                 addbtn_2.visibility = View.INVISIBLE
-                parkspot2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
-                parkspot3.visibility = View.INVISIBLE
 
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow1.close()
+                reserve_1.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
-                parkspot1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
-                parkspot2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
-                parkspot3.visibility = View.INVISIBLE
 
             }
 
@@ -369,23 +284,21 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow2.open(marker2)
                 infoWindow1.close()
                 infoWindow3.close()
+                reserve_1.visibility = View.INVISIBLE
+
                 addbtn_1.visibility = View.INVISIBLE
-                parkspot1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.VISIBLE
-                parkspot2.visibility = View.VISIBLE
                 addbtn_3.visibility = View.INVISIBLE
-                parkspot3.visibility = View.INVISIBLE
 
 
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow2.close()
+                reserve_1.visibility = View.INVISIBLE
+
                 addbtn_1.visibility = View.INVISIBLE
-                parkspot1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
-                parkspot2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
-                parkspot3.visibility = View.INVISIBLE
 
 
             }
@@ -402,22 +315,19 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow3.open(marker3)
                 infoWindow1.close()
                 infoWindow2.close()
+                reserve_1.visibility = View.INVISIBLE
+
                 addbtn_1.visibility = View.INVISIBLE
-                parkspot1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
-                parkspot2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.VISIBLE
-                parkspot3.visibility = View.VISIBLE
 
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow3.close()
+                reserve_1.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
-                parkspot1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
-                parkspot2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
-                parkspot3.visibility = View.INVISIBLE
 
             }
 
@@ -459,4 +369,15 @@ class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
         super.onLowMemory()
         mapView.onLowMemory()
     }
+
+    private fun setRetrofit(){
+        var gson = GsonBuilder().setLenient().create()
+        mRetrofit = Retrofit.Builder()
+            .baseUrl(getString(R.string.baseUrl))
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+        mRetrofitAPI = mRetrofit.create(reserverService::class.java)
+    }
+
+
 }

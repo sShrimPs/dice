@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dice.retrofit.FlaskService
 import kotlinx.android.synthetic.main.activity_sub4.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject

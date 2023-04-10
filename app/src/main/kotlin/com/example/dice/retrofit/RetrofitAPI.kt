@@ -1,4 +1,4 @@
-package com.example.dice
+package com.example.dice.retrofit
 
 import com.google.gson.JsonObject
 import retrofit2.Call

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dice.retrofit.milesService
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import kr.co.bootpay.android.Bootpay

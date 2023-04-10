@@ -37,6 +37,9 @@
             android:name=".SubActivity4"
             android:exported="true" />
         <activity
+            android:name=".KakaoAddress"
+            android:exported="true" />
+        <activity
             android:name=".cardread"
             android:exported="true">
         </activity>

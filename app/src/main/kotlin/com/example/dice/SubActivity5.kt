@@ -9,6 +9,8 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
+import com.example.dice.datamodel.milesInfo
+import com.example.dice.retrofit.milesService
 import kotlinx.android.synthetic.main.activity_sub5.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
