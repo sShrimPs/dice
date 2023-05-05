@@ -53,17 +53,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         mapbtn_1.setOnClickListener {
-            val intent = Intent(this, SubActivity1::class.java)
+            val intent = Intent(this, NaverMap::class.java)
             startActivity(intent)
         }
         returnloginbtn_1.setOnClickListener {
-            val intent = Intent(this, SubActivity3::class.java)
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
             Toast.makeText(this@MainActivity, "로그아웃 성공!", Toast.LENGTH_SHORT).show()
         }
         ident_btn.setOnClickListener {
             Log.d(TAG, "로그인 $ids")
-            val intent = Intent(this, SubActivity5::class.java)
+            val intent = Intent(this, Myinfo::class.java)
             intent.apply {
                 this.putExtra("ids", ids)
             }

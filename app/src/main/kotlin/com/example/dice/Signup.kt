@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class SubActivity4 : AppCompatActivity() {
+class Signup : AppCompatActivity() {
 
     val TAG: String = "Register"
     var isExistBlank = false
@@ -68,7 +68,7 @@ class SubActivity4 : AppCompatActivity() {
                // editor.apply()
 
                 // 로그인 화면으로 이동
-                val intent = Intent(this, SubActivity3::class.java)
+                val intent = Intent(this, Login::class.java)
                 startActivity(intent)
 
             }

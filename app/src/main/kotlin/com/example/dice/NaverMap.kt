@@ -13,35 +13,28 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.util.FusedLocationSource
-import com.naver.maps.map.util.MarkerIcons
 import android.view.View
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.dice.datamodel.reservers
 import com.example.dice.retrofit.reserverService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_main.*
+import com.naver.maps.map.NaverMap
 import kotlinx.android.synthetic.main.activity_sub1.*
-import kotlinx.android.synthetic.main.popup_layout.*
-import org.w3c.dom.Text
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SubActivity1 : AppCompatActivity(), OnMapReadyCallback {
+class NaverMap : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var popupView: View
     lateinit var mRetrofit :Retrofit
     lateinit var mRetrofitAPI: reserverService

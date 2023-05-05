@@ -31,10 +31,10 @@
             android:name=".PointchargeActivity"
             android:exported="true" />
         <activity
-            android:name=".SubActivity5"
+            android:name=".Myinfo"
             android:exported="true" />
         <activity
-            android:name=".SubActivity4"
+            android:name=".Signup"
             android:exported="true" />
         <activity
             android:name=".KakaoAddress"
@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".SubActivity3"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,7 +55,7 @@
         </activity>
 
         <activity
-            android:name=".SubActivity1"
+            android:name=".NaverMap"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 
-class SubActivity5 : AppCompatActivity() {
+class Myinfo : AppCompatActivity() {
     lateinit var pref: SharedPreferences
     lateinit var preid: SharedPreferences.Editor
     var milesmony: String = ""

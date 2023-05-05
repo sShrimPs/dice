@@ -107,7 +107,7 @@ class PointchargeActivity : AppCompatActivity() {
                 }).requestPayment()
         }
         returnbtn.setOnClickListener {
-            val intent = Intent(this, SubActivity5::class.java)
+            val intent = Intent(this, Myinfo::class.java)
             intent.apply {
                 this.putExtra("price", buygood)
                 this.putExtra("ids", ids)
@@ -115,12 +115,6 @@ class PointchargeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-       // companion object {
-        //    private var instance: SubActivity5? = null
-        //    fun getInstance(): SubActivity5? {
-         //       return instance
-         //   }
-       // }
     }
 
     private fun sendDataToServer(jsonObject: JsonObject) {

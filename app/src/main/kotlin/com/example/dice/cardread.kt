@@ -53,7 +53,7 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
         }
 
         returnbtn.setOnClickListener {
-            val intents = Intent(this, SubActivity5::class.java)
+            val intents = Intent(this, Myinfo::class.java)
             intent.apply {
                 this.putExtra("id", ids)
                 this.putExtra("uid", uid)

@@ -3,7 +3,6 @@ package com.example.dice
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.dice.R
 import kotlinx.android.synthetic.main.activity_parkinfo.*
 
 class ParkinfoActivity : AppCompatActivity() {
@@ -20,7 +19,7 @@ class ParkinfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_parkinfo)
 
         back_btn.setOnClickListener {
-            val intent = Intent(this, SubActivity5::class.java)
+            val intent = Intent(this, Myinfo::class.java)
             startActivity(intent)
         } //메인메뉴로 이동
         renewal_info.setOnClickListener {

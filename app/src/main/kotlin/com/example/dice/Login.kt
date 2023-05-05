@@ -25,7 +25,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class SubActivity3 : AppCompatActivity() {
+class Login : AppCompatActivity() {
     val TAG: String = "SubActivity3"
     lateinit var pref: SharedPreferences
     lateinit var preid: SharedPreferences.Editor
@@ -100,7 +100,7 @@ class SubActivity3 : AppCompatActivity() {
         }
         // 회원가입 버튼
         signup_btn.setOnClickListener {
-            val intent = Intent(this, SubActivity4::class.java)
+            val intent = Intent(this, Signup::class.java)
             startActivity(intent)
         }
 
