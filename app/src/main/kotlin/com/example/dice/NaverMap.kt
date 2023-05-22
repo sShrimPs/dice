@@ -33,6 +33,8 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class NaverMap : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var popupView: View
@@ -137,7 +139,11 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
 
         // Show the PopupWindow as a full-screen dialog
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")
+        val formatted = current.format(formatter)
 
+        println("Current: $formatted")
         callTodoList()
         val reser = popupView.findViewById<Button>(R.id.refresh1)
         reser.setOnClickListener {

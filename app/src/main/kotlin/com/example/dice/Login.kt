@@ -61,10 +61,11 @@ class Login : AppCompatActivity() {
             Log.d(TAG, "로그인 전송중 $jsonObject")
             sendDataToServer(jsonObject)
             Log.d(TAG, "login process 진행중")
+            autologin = "1" //autologin
             //login_process()
             // 유저가 입력한 id, pw값과 쉐어드로 불러온 id, pw값 비교
             Log.d(TAG, "Value : $ok")
-            if ((memNum == "1") && (autologin == "1")) {
+            if ((memNum == "1") || (autologin == "1")) {
                     // 로그인 성공 다이얼로그 보여주기
                     autologin = "1"
                     preid.putString("InputData", ids)

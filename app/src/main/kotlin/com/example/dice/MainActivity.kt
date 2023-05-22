@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.datamodel.DataModel
+import com.example.dice.kakao.KakaoAddress
 import com.example.dice.retrofit.RetrofitAPI
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

@@ -24,4 +24,7 @@ data class reservers ( //회원번호
     val reserver : String
 )
 
-
+data class CarNumInfo ( //회원번호
+    @SerializedName("carnum")
+    val carnum : String
+)
