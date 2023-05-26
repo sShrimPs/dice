@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var ids = intent?.getStringExtra("ids") ?: ""
+        var maps = intent?.getStringExtra("roadAddress") ?: ""
+
         pref = getSharedPreferences("id",Context.MODE_PRIVATE)
         preid = pref.edit()
         var saveid = pref.getString("InputData","")
@@ -46,10 +48,11 @@ class MainActivity : AppCompatActivity() {
             button1.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
             callTodoList()
+            myUID.text = "주소는" + maps
         }
 
         kakaoadd.setOnClickListener {
-            val intent = Intent(this, KakaoAddress::class.java)
+            val intent = Intent(this, Register_park::class.java)
             startActivity(intent)
         }
 

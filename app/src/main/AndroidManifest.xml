@@ -28,7 +28,7 @@
             android:name=".ParkinfoActivity"
             android:exported="true" />
         <activity
-            android:name=".PointrenewalActivity"
+            android:name=".Register_park"
             android:exported="true" />
         <activity
             android:name=".PointchargeActivity"

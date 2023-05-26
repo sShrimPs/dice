@@ -1,6 +1,5 @@
 package com.example.dice.kakao
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.net.http.SslError
@@ -13,6 +12,15 @@ import kotlinx.android.synthetic.main.activity_kakaoadd.*
 
 
 class KakaoAddress : AppCompatActivity() {
+
+    inner class AndroidBridge {
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        fun processDATA(roadAdd: String) {
+            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            sharedPreferences.edit().putString("roadAddress", roadAdd).apply()
+        }
+    }
 
     private var webView: WebView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +45,8 @@ class KakaoAddress : AppCompatActivity() {
             }
         }
 
-        webView!!.loadUrl("file:///android_asset/www/index.html")
+        webView!!.addJavascriptInterface(AndroidBridge(), "AndroidBridge")
+        webView!!.loadUrl(getString(R.string.baseUrl))
 }
 
 
@@ -50,6 +59,9 @@ var client: WebViewClient = object : WebViewClient() {
     override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
         handler?.proceed() // Proceed with SSL certificate
 
+    }
+    override fun onPageFinished(view: WebView?, url: String?) {
+        webView?.loadUrl("javascript:DaumPostcode")
     }
 
 
