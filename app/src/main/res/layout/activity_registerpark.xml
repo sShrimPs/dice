@@ -6,27 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".Register_park">
 
+    <TextView
+        android:id="@+id/postcode"
+        android:layout_width="125dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:text="우편번호"
+        app:layout_constraintBottom_toTopOf="@+id/edit_addr1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.792" />
+
     <Button
         android:id="@+id/retrunbtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="52dp"
         android:text="뒤로 가기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/edit_addr1"
-        android:layout_width="260dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:text="주소"
-        app:layout_constraintBottom_toTopOf="@+id/edit_addr"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -41,6 +42,29 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/edit_addr1"
+        android:layout_width="260dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:text="주소"
+        app:layout_constraintBottom_toTopOf="@+id/edit_addr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/img_btn"
+        android:layout_width="126dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="8dp"
+        android:text="이미지 업로드"
+        app:layout_constraintBottom_toTopOf="@+id/retrunbtn2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/search_addr"
         android:layout_width="wrap_content"
@@ -50,29 +74,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toEndOf="@+id/postcode"
-        app:layout_constraintTop_toTopOf="@+id/postcode"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/postcode"
-        android:layout_width="125dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:text="우편번호"
-        app:layout_constraintBottom_toTopOf="@+id/edit_addr1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.793" />
+        app:layout_constraintTop_toTopOf="@+id/postcode" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="128dp"
         android:layout_height="116dp"
-        android:layout_marginBottom="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_btn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

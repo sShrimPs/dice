@@ -25,7 +25,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ParkinfoActivity"
+            android:name=".finalprice"
             android:exported="true" />
         <activity
             android:name=".Register_park"
@@ -44,6 +44,10 @@
             android:exported="true" />
         <activity
             android:name=".cardread"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Carnum"
             android:exported="true">
         </activity>
 

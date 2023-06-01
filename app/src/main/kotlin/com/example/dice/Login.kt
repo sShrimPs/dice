@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.datamodel.Loginserver
@@ -75,6 +76,8 @@ class Login : AppCompatActivity() {
                     intent.apply {
                         this.putExtra("ids", ids)
                     }
+                    Toast.makeText(applicationContext, "로그인 성공!", Toast.LENGTH_SHORT).show()
+
                     startActivity(intent)
             }
             else if ((memNum == "1") && (autologin == "0"))

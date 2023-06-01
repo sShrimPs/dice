@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.dice.datamodel.reservers
 import com.example.dice.retrofit.reserverService
@@ -29,7 +30,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.naver.maps.map.NaverMap
 import kotlinx.android.synthetic.main.activity_sub1.*
+import reserveService
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -61,6 +64,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
     val TAG: String = "Price"
     var isExistBlank = false
     var money: String = ""
+    var ids = intent?.getStringExtra("ids") ?: ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +108,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
     }
+
 
     private fun callTodoList() {
         mCallTodoList = mRetrofitAPI.getReservers()
@@ -149,7 +154,15 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         reser.setOnClickListener {
             callTodoList()
         }
-
+        val reser1 = popupView.findViewById<Button>(R.id.reserve_2)
+        reser1.setOnClickListener {
+            val jsonObject = JsonObject().apply {
+                addProperty("id", ids)
+            }
+            Log.d(TAG, "json 취합중 $jsonObject")
+            Toast.makeText(applicationContext, "예약 진행중..", Toast.LENGTH_SHORT).show()
+            sendDataToServer(jsonObject)
+        }
 
     }
 
@@ -184,6 +197,50 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
 
         }
     })
+
+    private fun sendDataToServer(jsonObject: JsonObject) {
+
+        var gson = GsonBuilder().setLenient().create()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(getString(R.string.baseUrl))
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        val apiService = retrofit.create(reserveService::class.java)
+
+        val call = apiService.reserve(jsonObject)
+        Log.d(TAG, "전송중")
+
+        Thread{
+            call.enqueue(object : Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        Log.d("Response 완료", response.body().toString())
+                        val results: JsonObject? = response.body()
+                        Log.d(TAG, "전송 과정 중 response $results")
+                        Toast.makeText(applicationContext, "예약 성공!\n" +"예약시간 경과 후 입차시 예약이 취소 될 수 있습니다.(위약금발생)", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        Log.d("Response 완료", response.errorBody().toString())
+                        Toast.makeText(applicationContext, "예약 실패 재시도 해주세요!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.d("전송 실패", t.message.toString())
+                    Toast.makeText(applicationContext, "예약 실패!! 서버가 불안정 합니다.", Toast.LENGTH_SHORT).show()
+
+                }
+
+            }
+            )}.start()
+        try {
+            Thread.sleep(40)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Log.d(TAG, "전송완료")
+    }
 
 
     override fun onMapReady(@NonNull naverMap: NaverMap) {

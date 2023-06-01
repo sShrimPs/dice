@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
 import com.example.dice.datamodel.milesInfo
+import com.example.dice.retrofit.CarNumService
 import com.example.dice.retrofit.milesService
 import kotlinx.android.synthetic.main.activity_sub5.*
 import com.google.gson.Gson
@@ -45,7 +46,7 @@ class Myinfo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         var ids = intent?.getStringExtra("ids") ?: ""
         val buygood = intent?.getStringExtra("buygood") ?: ""
-        pref = getSharedPreferences("id", Context.MODE_PRIVATE)
+        pref = getSharedPreferences("id", MODE_PRIVATE)
         preid = pref.edit()
         var saveid = pref.getString("InputData","")
         ids = saveid.toString()
@@ -93,10 +94,15 @@ class Myinfo : AppCompatActivity() {
         } //nfc메뉴로 이동
 
 
-        parking_info.setOnClickListener {
-            val intent = Intent(this, ParkinfoActivity::class.java)
+        final_price.setOnClickListener {
+            val intent = Intent(this, finalprice::class.java)
             startActivity(intent)
         } //주차정보로 이동
+        car_number.setOnClickListener {
+            val intent = Intent(this, Carnum::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
