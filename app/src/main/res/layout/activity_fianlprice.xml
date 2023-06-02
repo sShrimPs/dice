@@ -35,12 +35,12 @@
         android:layout_marginBottom="52dp"
         android:visibility="visible"
         android:hint="최종 결재 금액"
-        app:layout_constraintBottom_toTopOf="@+id/parking_location"
+        app:layout_constraintBottom_toTopOf="@+id/final_pay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/parking_location"
+        android:id="@+id/final_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="168dp"

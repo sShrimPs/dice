@@ -13,6 +13,10 @@
         android:layout_marginStart="72dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
+        android:background="#7C4DFF"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
         android:text="우편번호"
         app:layout_constraintBottom_toTopOf="@+id/edit_addr1"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +52,10 @@
         android:layout_height="48dp"
         android:layout_marginBottom="32dp"
         android:ems="10"
+        android:background="#7C4DFF"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
         android:text="주소"
         app:layout_constraintBottom_toTopOf="@+id/edit_addr"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +64,8 @@
 
     <Button
         android:id="@+id/img_btn"
-        android:layout_width="126dp"
-        android:layout_height="46dp"
+        android:layout_width="139dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="8dp"
         android:text="이미지 업로드"
         app:layout_constraintBottom_toTopOf="@+id/retrunbtn2"
@@ -72,9 +80,8 @@
         android:text="우편번호"
         app:layout_constraintBottom_toBottomOf="@+id/postcode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toEndOf="@+id/postcode"
-        app:layout_constraintTop_toTopOf="@+id/postcode" />
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintStart_toEndOf="@+id/postcode" />
 
     <ImageView
         android:id="@+id/image"

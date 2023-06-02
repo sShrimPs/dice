@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             button1.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
             callTodoList()
-            myUID.text = "주소는" + maps
         }
 
         kakaoadd.setOnClickListener {

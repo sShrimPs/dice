@@ -161,14 +161,18 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     Log.d("Response 완료", response.body().toString())
-
+                    Toast.makeText(applicationContext, "카드 등록 완료!", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.d("Response 완료", response.errorBody().toString())
+                    Toast.makeText(applicationContext, "다시 한번 태그 해주세요!", Toast.LENGTH_SHORT).show()
+
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Log.d("전송 실패", t.message.toString())
+                Toast.makeText(applicationContext, "카드 등록 실패 다시 태그 해주세요", Toast.LENGTH_SHORT).show()
+
             }
         }
         )
