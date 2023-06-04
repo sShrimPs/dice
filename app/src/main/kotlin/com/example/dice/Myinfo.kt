@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
@@ -42,6 +43,16 @@ class Myinfo : AppCompatActivity() {
     //    return instance
     // }
     // }
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var ids = intent?.getStringExtra("ids") ?: ""

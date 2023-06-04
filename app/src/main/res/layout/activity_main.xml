@@ -12,31 +12,41 @@
         android:id="@+id/myUID"
         android:layout_width="172dp"
         android:layout_height="34dp"
-        android:layout_marginBottom="8dp"
-        android:text="Dice Parking System"
         android:background="#7C4DFF"
-        android:textAlignment="center"
         android:gravity="center"
+        android:text="Dice Parking System"
+        android:textAlignment="center"
         android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintVertical_bias="0.612" />
+
+    <!--    단순 내용이 없다는 텍스트 내용-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="127dp"
+        android:layout_height="115dp"
+        android:layout_marginBottom="56dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/button1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="372dp"
         android:background="@color/colorPrimary"
         android:text="주차자리 현황 갱신"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!--    단순 내용이 없다는 텍스트 내용-->
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

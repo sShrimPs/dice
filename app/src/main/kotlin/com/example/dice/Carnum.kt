@@ -20,6 +20,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class Carnum : AppCompatActivity() {
+
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, Myinfo::class.java)
+            startActivity(intent)
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_carnum)

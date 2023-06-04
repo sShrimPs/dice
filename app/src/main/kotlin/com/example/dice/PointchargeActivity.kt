@@ -29,6 +29,16 @@ class PointchargeActivity : AppCompatActivity() {
     var buygood:String = ""
     lateinit var pref: SharedPreferences
     lateinit var preid: SharedPreferences.Editor
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, Myinfo::class.java)
+            startActivity(intent)
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

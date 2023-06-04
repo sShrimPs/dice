@@ -38,6 +38,17 @@ class Register_park : AppCompatActivity() {
     lateinit var postcodes: String
     var ids = intent?.getStringExtra("ids") ?: ""
 
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registerpark)

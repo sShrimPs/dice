@@ -30,6 +30,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var mCallTodoList : retrofit2.Call<JsonObject>
     lateinit var test: String
 
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(applicationContext, "한번 더 클릭 시 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500){
+            finishAffinity()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         var ids = intent?.getStringExtra("ids") ?: ""
         var maps = intent?.getStringExtra("roadAddress") ?: ""

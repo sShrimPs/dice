@@ -2,17 +2,31 @@ package com.example.dice.kakao
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dice.Myinfo
 import com.example.dice.R
+import com.example.dice.Register_park
 import kotlinx.android.synthetic.main.activity_kakaoadd.*
 
 
 class KakaoAddress : AppCompatActivity() {
+
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, Register_park::class.java)
+            startActivity(intent)
+        }
+
+    }
 
     inner class AndroidBridge {
         @JavascriptInterface

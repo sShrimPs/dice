@@ -24,6 +24,18 @@ class Signup : AppCompatActivity() {
     var isExistBlank = false
     var isPWSame = false
 
+    var backKeyPressedTime : Long = 0
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(applicationContext, "한번 더 클릭 시 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500){
+            finishAffinity()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub4)

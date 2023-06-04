@@ -37,7 +37,19 @@ class Login : AppCompatActivity() {
     private var loginst: String = ""
     var memNum: String = ""
     var ok:Int = 0
+    var backKeyPressedTime : Long = 0
 
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(applicationContext, "한번 더 클릭 시 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500){
+            finishAffinity()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

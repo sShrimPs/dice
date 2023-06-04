@@ -66,7 +66,16 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
     var money: String = ""
     var ids = intent?.getStringExtra("ids") ?: ""
 
+    var backKeyPressedTime : Long = 0
 
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500){
+            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         setRetrofit()
         super.onCreate(savedInstanceState)
