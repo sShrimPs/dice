@@ -55,6 +55,8 @@ class Register_park : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registerpark)
+        pref = getSharedPreferences("id", Context.MODE_PRIVATE)
+        preid = pref.edit()
         postcode.text = "주소"
         edit_addr1.text = "우편번호"
         var saveid = pref.getString("InputData","")
