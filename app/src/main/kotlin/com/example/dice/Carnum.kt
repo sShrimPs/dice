@@ -1,7 +1,9 @@
 package com.example.dice
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -22,6 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Carnum : AppCompatActivity() {
 
     var backKeyPressedTime : Long = 0
+    lateinit var pref: SharedPreferences
+    lateinit var preid: SharedPreferences.Editor
 
     override fun onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2500){
@@ -34,7 +38,10 @@ class Carnum : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_carnum)
-        var ids = intent?.getStringExtra("ids") ?: ""
+        pref = getSharedPreferences("id", Context.MODE_PRIVATE)
+        preid = pref.edit()
+        var saveid = pref.getString("InputData","")
+        var ids = saveid.toString()
 
         car_register.setOnClickListener {
             var cars = car_edit.text.toString()

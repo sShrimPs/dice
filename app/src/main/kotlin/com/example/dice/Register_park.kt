@@ -3,6 +3,7 @@ package com.example.dice
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -39,6 +40,8 @@ class Register_park : AppCompatActivity() {
     var ids = intent?.getStringExtra("ids") ?: ""
 
     var backKeyPressedTime : Long = 0
+    lateinit var pref: SharedPreferences
+    lateinit var preid: SharedPreferences.Editor
 
     override fun onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2500){
@@ -54,6 +57,8 @@ class Register_park : AppCompatActivity() {
         setContentView(R.layout.activity_registerpark)
         postcode.text = "주소"
         edit_addr1.text = "우편번호"
+        var saveid = pref.getString("InputData","")
+        ids = saveid.toString()
         search_addr.setOnClickListener {
             val intent = Intent(this, KakaoAddress::class.java)
             startActivity(intent)

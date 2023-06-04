@@ -23,10 +23,6 @@ data class reservers ( //회원번호
     @SerializedName("reserver")
     val reserver : String
 )
-data class finprice ( //최종결재 금액
-    @SerializedName("finprices")
-    val finprices : String
-)
 
 data class CarNumInfo ( //차량번호
     @SerializedName("carnum")

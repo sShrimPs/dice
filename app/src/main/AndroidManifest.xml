@@ -43,6 +43,9 @@
             android:name=".kakao.KakaoAddress"
             android:exported="true" />
         <activity
+            android:name=".fianlpay"
+            android:exported="true" />
+        <activity
             android:name=".cardread"
             android:exported="true">
         </activity>
@@ -50,6 +53,7 @@
             android:name=".Carnum"
             android:exported="true">
         </activity>
+
 
         <activity
             android:name=".Login"
