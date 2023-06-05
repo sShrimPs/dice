@@ -1,29 +1,20 @@
 package com.example.dice
 
-import android.content.Context
-import android.content.DialogInterface
+
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
-import com.example.dice.datamodel.DataModel
 import com.example.dice.datamodel.checksinfo
 import com.example.dice.datamodel.milesInfo
-import com.example.dice.retrofit.CarNumService
-import com.example.dice.retrofit.RetrofitAPI
 import com.example.dice.retrofit.milesService
 import kotlinx.android.synthetic.main.activity_sub5.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_main.button1
-import kotlinx.android.synthetic.main.activity_main.progressBar
-import kotlinx.android.synthetic.main.activity_main.textView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,12 +37,7 @@ class Myinfo : AppCompatActivity() {
     }
     private val AppId = "640ab855755e27001c6921c2"
 
-    //companion object {
-    //private var instance: SubActivity3? = null
-    //fun getInstance(): SubActivity3? {
-    //    return instance
-    // }
-    // }
+
     var backKeyPressedTime : Long = 0
 
     override fun onBackPressed() {
