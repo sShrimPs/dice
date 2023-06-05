@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/returnRe"
-        android:layout_width="146dp"
-        android:layout_height="39dp"
+        android:layout_width="165dp"
+        android:layout_height="87dp"
         android:layout_marginTop="256dp"
         android:background="#7C4DFF"
+        android:gravity="center"
         android:text="새로고침을 해주세요"
         android:textAlignment="center"
-        android:gravity="center"
         android:textColor="#ffffff"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.834" />
+        app:layout_constraintVertical_bias="0.824" />
 
     <Button
         android:id="@+id/refresh1"

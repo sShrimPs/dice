@@ -115,12 +115,12 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
                     }
                 }
                 uid = bytesToHexString(it.tag.id)
-                var uiddem = java.lang.Long.parseLong(uid, 16)
-                uidDecimal = uiddem.toString()
+                //var uiddem = java.lang.Long.parseLong(uid, 16)
+                //uidDecimal = uiddem.toString()
                 it.close()
                 val jsonObject = JsonObject().apply {
                     addProperty("id", ids)
-                    addProperty("uid", uidDecimal)
+                    addProperty("uid", uid)
                 }
                 Log.d("Flask Sever", "카드정보 전송중 $jsonObject")
                 sendDataToServer(jsonObject)

@@ -66,6 +66,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
     var money: String = ""
     var ids = intent?.getStringExtra("ids") ?: ""
 
+
     var backKeyPressedTime : Long = 0
 
     override fun onBackPressed() {
@@ -81,7 +82,10 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub1)
         val clipboard=getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-
+        pref = getSharedPreferences("id", MODE_PRIVATE)
+        preid = pref.edit()
+        var saveid = pref.getString("InputData","")
+        ids = saveid.toString()
 
         mainbtn_1.setOnClickListener {
             finish()

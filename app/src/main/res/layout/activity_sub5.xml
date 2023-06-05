@@ -7,16 +7,16 @@
     tools:context=".Myinfo">
 
     <TextView
-        android:id="@+id/name_txt"
-        android:layout_width="217dp"
-        android:layout_height="37dp"
+        android:id="@+id/check_txt"
+        android:layout_width="220dp"
+        android:layout_height="62dp"
         android:layout_marginTop="96dp"
-        android:ems="10"
         android:background="#7C4DFF"
-        android:textAlignment="center"
+        android:ems="10"
         android:gravity="center"
+        android:hint="현재 정류장"
+        android:textAlignment="center"
         android:textColor="#ffffff"
-        android:hint="내정보창"
         app:layout_constraintBottom_toTopOf="@+id/now_point"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.252"
@@ -35,16 +35,56 @@
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <EditText
+        android:id="@+id/edit_price"
+        android:layout_width="208dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="440dp"
+        android:ems="10"
+        android:hint="결제금액입력"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/now_point"
+        app:layout_constraintStart_toStartOf="@+id/now_point" />
+
     <Button
-        android:id="@+id/nfcbtn"
+        android:id="@+id/point_renewal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="260dp"
-        android:text="nfc-read"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/final_price"
+        android:layout_marginBottom="60dp"
+        android:text="정보 갱신"
+        app:layout_constraintBottom_toTopOf="@+id/ac_charge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/now_point"
+        android:layout_width="215dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="16dp"
+        android:background="#7C4DFF"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="포인트"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/edit_price"
+        app:layout_constraintEnd_toEndOf="@+id/check_txt"
+        app:layout_constraintStart_toStartOf="@+id/check_txt" />
+
+    <Button
+        android:id="@+id/final_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="주차비 결제"
+        app:layout_constraintBottom_toTopOf="@+id/nfcbtn"
+        app:layout_constraintEnd_toEndOf="@+id/car_number"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/final_price" />
+        app:layout_constraintStart_toStartOf="@+id/car_number" />
 
     <Button
         android:id="@+id/car_number"
@@ -61,62 +101,23 @@
         android:id="@+id/ac_charge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="포인트 충전"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_price"
-        app:layout_constraintEnd_toEndOf="@+id/point_renewal"
-        app:layout_constraintStart_toStartOf="@+id/point_renewal"
-        app:layout_constraintTop_toTopOf="@+id/edit_price" />
-
-    <EditText
-        android:id="@+id/edit_price"
-        android:layout_width="208dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="448dp"
-        android:ems="10"
-        android:hint="결제금액입력"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/now_point"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/now_point" />
-
-    <Button
-        android:id="@+id/point_renewal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="포인트 갱신"
-        app:layout_constraintBottom_toBottomOf="@+id/now_point"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.917"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/now_point" />
-
-    <TextView
-        android:id="@+id/now_point"
-        android:layout_width="215dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:background="#7C4DFF"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:hint="포인트"
-        app:layout_constraintBottom_toTopOf="@+id/edit_price"
-        app:layout_constraintEnd_toEndOf="@+id/name_txt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/name_txt" />
-
-    <Button
-        android:id="@+id/final_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="주차비 결제"
-        app:layout_constraintBottom_toTopOf="@+id/nfcbtn"
-        app:layout_constraintEnd_toEndOf="@+id/car_number"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="@+id/car_number" />
+        android:text="포인트 충전"
+        app:layout_constraintBottom_toTopOf="@+id/car_number"
+        app:layout_constraintEnd_toEndOf="@+id/point_renewal"
+        app:layout_constraintHorizontal_bias="0.642"
+        app:layout_constraintStart_toStartOf="@+id/point_renewal" />
+
+    <Button
+        android:id="@+id/nfcbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="260dp"
+        android:text="nfc-read"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/final_price"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/final_price" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

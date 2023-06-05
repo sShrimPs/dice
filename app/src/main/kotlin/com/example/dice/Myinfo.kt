@@ -6,17 +6,24 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dice.databinding.ActivitySub5Binding
+import com.example.dice.datamodel.DataModel
+import com.example.dice.datamodel.checksinfo
 import com.example.dice.datamodel.milesInfo
 import com.example.dice.retrofit.CarNumService
+import com.example.dice.retrofit.RetrofitAPI
 import com.example.dice.retrofit.milesService
 import kotlinx.android.synthetic.main.activity_sub5.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.activity_main.button1
+import kotlinx.android.synthetic.main.activity_main.progressBar
+import kotlinx.android.synthetic.main.activity_main.textView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +35,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Myinfo : AppCompatActivity() {
     lateinit var pref: SharedPreferences
     lateinit var preid: SharedPreferences.Editor
+
     var milesmony: String = ""
+    var chkinfo: String = ""
     val TAG: String = "Price"
     var isExistBlank = false
     var money: String = ""
@@ -66,6 +75,7 @@ class Myinfo : AppCompatActivity() {
         setContentView(R.layout.activity_sub5)
         //renow_point.setText("갱신 전 포인트 :"+nowpoint)
 
+
         point_renewal.setOnClickListener {
 
             val jsonObject = JsonObject().apply {
@@ -73,12 +83,13 @@ class Myinfo : AppCompatActivity() {
                 addProperty("mile", 0)
             }
             Log.d(TAG, "로그인 전송중 $jsonObject")
+            Toast.makeText(applicationContext, "갱신 중..", Toast.LENGTH_SHORT).show()
             sendDataToServer(jsonObject)
-            dialog("success")
 
         } //잔여포인트 갱신버튼
 
         ac_charge.setOnClickListener {
+            Toast.makeText(applicationContext, "갱신 중..", Toast.LENGTH_SHORT).show()
             var price = edit_price.text.toString()
             Log.d(TAG, "가격 전송중 $price")
             Log.d(TAG, "로그인 $ids")
@@ -104,7 +115,6 @@ class Myinfo : AppCompatActivity() {
             startActivity(intent)
         } //nfc메뉴로 이동
 
-
         final_price.setOnClickListener {
             val intent = Intent(this, finalprice::class.java)
             startActivity(intent)
@@ -117,6 +127,7 @@ class Myinfo : AppCompatActivity() {
 
 
     }
+
 
     private fun sendDataToServer(jsonObject: JsonObject) {
 
@@ -135,12 +146,16 @@ class Myinfo : AppCompatActivity() {
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
+                    Toast.makeText(applicationContext, "갱신 완료!!", Toast.LENGTH_SHORT).show()
                     Log.d("Response 완료", response.body().toString())
                     val results: JsonObject? = response.body()
                     Log.d(TAG, "전송 과정 중 response $results")
                     var mGson = Gson()
                     val miler = mGson.fromJson(results, milesInfo::class.java)
+                    val checkinfo = mGson.fromJson(results, checksinfo::class.java)
+                    chkinfo= checkinfo.check
                     milesmony = miler.mile
+
                     if (milesmony == "1") {
                         Log.d(TAG, "0원")
                         money = "0원"
@@ -148,14 +163,17 @@ class Myinfo : AppCompatActivity() {
                         Log.d(TAG, "변환 결과 $milesmony")
                         money = milesmony
                     }
-
+                    check_txt.text = chkinfo
 
                 } else {
                     Log.d("Response 완료", response.errorBody().toString())
+                    Toast.makeText(applicationContext, "갱신 오류! 재시도 해주세요", Toast.LENGTH_SHORT).show()
+
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(applicationContext, "갱신 실패. 재시도 해주세요.", Toast.LENGTH_SHORT).show()
                 Log.d("전송 실패", t.message.toString())
 
             }
@@ -170,29 +188,5 @@ class Myinfo : AppCompatActivity() {
         Log.d(TAG, "전송완료")
     }
 
-    fun dialog(type: String) {
-        var dialog = AlertDialog.Builder(this)
 
-        if (type.equals("success")) {
-            dialog.setTitle("잔액은")
-            dialog.setMessage(money)
-        } else if (type.equals("fail")) {
-            dialog.setTitle("잔액확인실패")
-            dialog.setMessage("다시 한번 눌려주세요")
-        }
-
-        var dialog_listener = object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE ->
-                        Log.d(TAG, "")
-                }
-            }
-        }
-
-        dialog.setPositiveButton("확인",dialog_listener)
-        dialog.show()
-
-
-    }
 }
