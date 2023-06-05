@@ -159,9 +159,11 @@ class Myinfo : AppCompatActivity() {
                     if (milesmony == "1") {
                         Log.d(TAG, "0원")
                         money = "0원"
+                        now_point.text = money
                     } else {
                         Log.d(TAG, "변환 결과 $milesmony")
                         money = milesmony
+                        now_point.text = money+"원"
                     }
                     check_txt.text = chkinfo
 
