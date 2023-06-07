@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/returnRe"
-        android:layout_width="165dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="256dp"
+        android:layout_width="256dp"
+        android:layout_height="97dp"
+        android:layout_marginBottom="48dp"
         android:background="#7C4DFF"
         android:gravity="center"
         android:text="새로고침을 해주세요"
@@ -20,9 +20,19 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/refresh1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:layout_width="127dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="84dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/returnRe"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824" />
+        app:layout_constraintVertical_bias="0.158" />
 
     <Button
         android:id="@+id/refresh1"

@@ -200,7 +200,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 val test = dataParsed1.Sonic
                 val test1 = dataParsed2.reserver
                 val returntxt = popupView.findViewById<TextView>(R.id.returnRe)
-                returntxt.text = "Dice 주차장 주차 현황\n" + test + "/6\n" + "예약현황\n" + test1
+                returntxt.text = "Dice 주차장 주차 가능 대수\n" + test + "/6\n" + "예약가능 대수\n" + test1
 
             } else {
                 // Response 데이터가 null인 경우 처리하는 코드 작성
