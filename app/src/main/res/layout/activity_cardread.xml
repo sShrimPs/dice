@@ -8,20 +8,29 @@
     tools:context=".cardread">
 
 
+    <ImageView
+        android:layout_width="127dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="128dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/again_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/taguidTextView"
         android:layout_width="363dp"
         android:layout_height="74dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginBottom="48dp"
         android:background="#7C4DFF"
-        android:textAlignment="center"
         android:gravity="center"
+        android:hint="카드 인식이 안되면 위 버튼을 눌려주세요"
+        android:textAlignment="center"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/returnbtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/returnbtn"
@@ -34,6 +43,16 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/again_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:text="카드 등록하기"
+        app:layout_constraintBottom_toTopOf="@+id/taguidTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

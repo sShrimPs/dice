@@ -34,7 +34,7 @@
         android:layout_height="35dp"
         android:layout_marginBottom="52dp"
         android:visibility="visible"
-        android:hint="최종 결재 금액"
+        android:hint="최종 결제 금액"
         app:layout_constraintBottom_toTopOf="@+id/final_pay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="168dp"
-        android:text="결재"
+        android:text="결제"
         app:layout_constraintBottom_toTopOf="@+id/back_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

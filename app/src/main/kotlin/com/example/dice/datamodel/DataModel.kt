@@ -29,6 +29,7 @@ data class CarNumInfo ( //차량번호
     val carnum : String
 )
 
+
 data class checksinfo ( //check 값
     @SerializedName("check")
     val check : String

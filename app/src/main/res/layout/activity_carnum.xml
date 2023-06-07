@@ -7,6 +7,17 @@
     tools:context=".Carnum">
 
 
+    <ImageView
+        android:layout_width="127dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="128dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/car_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
     <EditText
         android:id="@+id/car_edit"
         android:layout_width="wrap_content"
@@ -16,9 +27,7 @@
         android:hint="차량번호"
         app:layout_constraintBottom_toTopOf="@+id/car_register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.994" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/car_register"

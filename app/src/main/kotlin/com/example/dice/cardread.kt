@@ -71,6 +71,10 @@ class cardread : AppCompatActivity(), NfcAdapter.ReaderCallback {
             }
             startActivity(intents)
         }
+        again_btn.setOnClickListener {
+            val intents = Intent(this, cardread::class.java)
+            startActivity(intents)
+        }
     }
 
     private fun enableNfcSetting() {
