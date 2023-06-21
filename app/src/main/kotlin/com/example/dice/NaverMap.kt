@@ -106,6 +106,9 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         reserve_1.setOnClickListener {
             showFullScreenPopupDialog()
         }
+        reserve_2.setOnClickListener {
+            showFullScreen()
+        }
 
 
 
@@ -127,6 +130,52 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         mCallTodoList = mRetrofitAPI.getReservers()
         mCallTodoList.enqueue(mRetrofitCallback)
     }
+
+    private fun showFullScreen() {
+        // Get the display metrics of the device
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        // Create the PopupWindow object
+        val popupWindow = PopupWindow(this)
+
+        // Set the width and height of the PopupWindow object to match the device's screen size
+        popupWindow.width = displayMetrics.widthPixels
+        popupWindow.height = displayMetrics.heightPixels
+        popupWindow.isFocusable = true
+
+        // Set the background color of the PopupWindow to an opaque color
+        popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.popup_background_color)))
+
+        // Set the popup layout as the content view of the PopupWindow
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        popupView = inflater.inflate(R.layout.popup_two, null)
+        popupWindow.contentView = popupView
+        val returnButton = popupView.findViewById<Button>(R.id.returnbtn1)
+
+        returnButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
+
+        // Show the PopupWindow as a full-screen dialog
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")
+        val formatted = current.format(formatter)
+
+        println("Current: $formatted")
+        val reser1 = popupView.findViewById<Button>(R.id.reserve_2)
+        reser1.setOnClickListener {
+            val jsonObject = JsonObject().apply {
+                addProperty("id", ids)
+            }
+            Log.d(TAG, "json 취합중 $jsonObject")
+            Toast.makeText(applicationContext, "예약 진행중..", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "예약 완료!!", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
     private fun showFullScreenPopupDialog() {
         // Get the display metrics of the device
         val displayMetrics = DisplayMetrics()
@@ -289,7 +338,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
         marker3.position = LatLng(35.546, 129.2575)
         marker3.map = naverMap
         marker3.captionTextSize = 16f
-        marker3.captionText = "Dice Park 3호점"
+        marker3.captionText = "모두의 주차장"
         marker3.subCaptionText = "\n(주소를 볼려면 마커를 눌러주세요)"
         marker3.subCaptionColor = Color.BLUE
         marker3.subCaptionHaloColor = Color.rgb(200, 255, 200)
@@ -328,6 +377,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow2.close()
                 infoWindow3.close()
                 reserve_1.visibility = View.VISIBLE
+                reserve_2.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.VISIBLE
                 addbtn_2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
@@ -336,6 +386,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow1.close()
                 reserve_1.visibility = View.INVISIBLE
+                reserve_2.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
@@ -354,7 +405,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow1.close()
                 infoWindow3.close()
                 reserve_1.visibility = View.INVISIBLE
-
+                reserve_2.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.VISIBLE
                 addbtn_3.visibility = View.INVISIBLE
@@ -364,7 +415,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow2.close()
                 reserve_1.visibility = View.INVISIBLE
-
+                reserve_2.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
@@ -385,7 +436,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 infoWindow1.close()
                 infoWindow2.close()
                 reserve_1.visibility = View.INVISIBLE
-
+                reserve_2.visibility = View.VISIBLE
                 addbtn_1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.VISIBLE
@@ -394,6 +445,7 @@ class NaverMap : AppCompatActivity(), OnMapReadyCallback {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow3.close()
                 reserve_1.visibility = View.INVISIBLE
+                reserve_2.visibility = View.INVISIBLE
                 addbtn_1.visibility = View.INVISIBLE
                 addbtn_2.visibility = View.INVISIBLE
                 addbtn_3.visibility = View.INVISIBLE
